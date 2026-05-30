@@ -60,6 +60,9 @@ INSTALLED_APPS = [
 
     # Handles sending emails through external providers like Resend
     'anymail',
+
+    # Register our custom posts application to manage writing articles, comments, and reactions
+    'posts',
 ]
 
 # The Middleware acts like a series of security bouncers standing in a hallway.
