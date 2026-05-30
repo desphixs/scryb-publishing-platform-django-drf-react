@@ -25,5 +25,8 @@ urlpatterns = [
 
     # Route all API traffic starting with 'api/' to our 'userauths' application urls file.
     path('api/userauths/', include('userauths.urls')),
+
+    # Route all API traffic for articles, comments, and likes to our 'posts' application urls file.
+    path('api/', include('posts.urls')),
 ]
 
