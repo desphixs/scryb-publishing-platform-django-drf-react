@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 // Import our clean icons from lucide-react to design our layout menus.
 import { 
   Menu, LayoutDashboard, Settings, LogOut, ChevronLeft, 
-  Milestone, Users, User, X
+  Milestone, Users, User, X, PenSquare
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Logo from '@/components/Logo';
@@ -48,6 +48,7 @@ export default function DashboardWrapper({ children }: DashboardWrapperProps) {
   // Navigational items list inside our layout sidebar.
   const navItems = useMemo(() => [
     { label: 'Overview', href: '/dashboard', icon: <LayoutDashboard size={20} /> },
+    { label: 'Write Article', href: '/dashboard/posts/new', icon: <PenSquare size={20} /> },
     { label: 'Profile', href: '/dashboard/profile', icon: <User size={20} /> },
   ], []);
 

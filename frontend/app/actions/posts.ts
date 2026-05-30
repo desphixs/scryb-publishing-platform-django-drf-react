@@ -94,3 +94,152 @@ export async function getPostBySlugAction(slug: string) {
         };
     }
 }
+
+/**
+ * CREATE ARTICLE ACTION
+ * 
+ * Analogy for Beginners:
+ * Think of this action like submitting a brand-new article draft to a publishing office.
+ * Before handing it to the database kitchen, the action automatically creates a URL-friendly nameplate
+ * (the dynamic "slug") by lowercasing the title, replacing spaces with hyphens, and stripping special symbols.
+ * 
+ * Since this creates a new post, we send a secure POST request to the Django endpoint `/posts/`.
+ */
+export async function createPostAction(payload: { title: string; body: string; status?: string }) {
+    try {
+        // 1. Automatically generate a URL-friendly slug from the post title.
+        // We convert the title to lowercase, replace any non-alphanumeric character with a hyphen,
+        // and trim off any trailing or leading hyphens.
+        const slug = payload.title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-") // replace non-alphanumeric chars with -
+            .replace(/(^-|-$)+/g, ""); // trim leading/trailing -
+
+        // 2. Dispatch a secure POST request to our Django REST API endpoint `/posts/`.
+        // The apiFetch wrapper automatically resolves our cookies and attaches the Bearer JWT.
+        const response = await apiFetch("/posts/", {
+            method: "POST",
+            body: {
+                title: payload.title,
+                slug: slug, // Submit the generated slug
+                body: payload.body,
+                status: payload.status || "draft", // Default to draft if status is unspecified
+            },
+        });
+
+        // 3. Evaluate if the database transaction was successful.
+        if (response.ok) {
+            return {
+                success: true,
+                post: response.data, // Contains the newly created article JSON object
+            };
+        } else {
+            // Django's PostSerializer returns validation error arrays (e.g. if the title is duplicate)
+            return {
+                success: false,
+                post: null,
+                message: response.data?.detail || response.data?.slug?.[0] || response.data?.title?.[0] || "Failed to save the new article. Please check your inputs.",
+            };
+        }
+    } catch (error: any) {
+        // 4. Intercept unexpected network failures safely.
+        return {
+            success: false,
+            post: null,
+            message: `Network error: ${error.message || "Failed to connect to the backend server."}`,
+        };
+    }
+}
+
+/**
+ * UPDATE ARTICLE ACTION
+ * 
+ * Analogy for Beginners:
+ * Think of this like asking a vault archivist to replace pages inside an existing manuscript folder.
+ * We specify the unique book slug, hand the new contents (title, body, status),
+ * and the archivist replaces the database rows.
+ * 
+ * Since this modifies an existing post, we send a secure PUT request to `/posts/<slug>/`.
+ */
+export async function updatePostAction(slug: string, payload: { title: string; body: string; status?: string }) {
+    try {
+        // 1. Generate a new slug based on the updated title to ensure URLs match the edited title!
+        const newSlug = payload.title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)+/g, "");
+
+        // 2. Dispatch a secure PUT request to the Django endpoint `/posts/<slug>/`.
+        const response = await apiFetch(`/posts/${slug}/`, {
+            method: "PUT",
+            body: {
+                title: payload.title,
+                slug: newSlug, // Submit the newly generated slug based on the updated title
+                body: payload.body,
+                status: payload.status || "draft",
+            },
+        });
+
+        // 3. Evaluate if the updates were saved successfully in Django SQLite.
+        if (response.ok) {
+            return {
+                success: true,
+                post: response.data, // Contains the updated article JSON object
+            };
+        } else {
+            // Retrieve validation error messages if any fields failed model validation
+            return {
+                success: false,
+                post: null,
+                message: response.data?.detail || response.data?.slug?.[0] || response.data?.title?.[0] || "Failed to update article. Please check your inputs.",
+            };
+        }
+    } catch (error: any) {
+        // 4. Handle unexpected connection faults.
+        return {
+            success: false,
+            post: null,
+            message: `Network error: ${error.message || "Failed to connect to the backend server."}`,
+        };
+    }
+}
+
+/**
+ * DELETE ARTICLE ACTION
+ * 
+ * Analogy for Beginners:
+ * Think of this like ordering the vault clerk to throw a specific book into the paper shredder.
+ * We identify the target folder using the slug, check if we have owner keys,
+ * and if verified, the clerk erases it permanently from the archive shelves.
+ * 
+ * Since this destroys a post record, we send a secure DELETE request to `/posts/<slug>/`.
+ */
+export async function deletePostAction(slug: string) {
+    try {
+        // 1. Dispatch a secure DELETE request to the Django endpoint `/posts/<slug>/`.
+        const response = await apiFetch(`/posts/${slug}/`, {
+            method: "DELETE",
+        });
+
+        // 2. Evaluate if the database erasure succeeded (standard status code 204 No Content).
+        if (response.ok) {
+            return {
+                success: true,
+                message: "Article has been permanently deleted from the database.",
+            };
+        } else {
+            // Capture any authorization rejection errors (e.g. if a different user tries to delete)
+            return {
+                success: false,
+                message: response.data?.detail || "You do not have permission to delete this article.",
+            };
+        }
+    } catch (error: any) {
+        // 3. Handle unexpected network Drops.
+        return {
+            success: false,
+            message: `Network error: ${error.message || "Failed to connect to the backend server."}`,
+        };
+    }
+}
+
