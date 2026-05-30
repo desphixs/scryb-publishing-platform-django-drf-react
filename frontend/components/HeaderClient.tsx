@@ -30,12 +30,6 @@ interface NavigationItem {
 // Adding, removing, or renaming a dish (link) here instantly updates it everywhere!
 const NAVIGATION_LINKS: NavigationItem[] = [
     {
-        label: "API Documentation",
-        href: "http://127.0.0.1:8000/api/docs/",
-        icon: BookOpen,
-        isExternal: true,
-    },
-    {
         label: "Dashboard",
         href: "/dashboard",
         icon: LayoutDashboard,
@@ -201,11 +195,11 @@ export default function HeaderClient({ session }: HeaderClientProps) {
                         // LOGGED-OUT STATE (Desktop View actions)
                         <div className="hidden md:flex items-center gap-3">
                             <ThemeToggle />
-                            <Link href="/login" className="h-10 px-4 rounded-xl text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-zinc-900/60 font-semibold text-xs transition-all duration-200 flex items-center">
+                            <Link href="/login" className="h-10 px-4 rounded-xl text-zinc-700 hover:text-[#FF5A36] dark:text-zinc-300 dark:hover:text-[#FF5A36] font-semibold text-xs transition-all duration-205 flex items-center">
                                 <LogIn className="w-3.5 h-3.5 mr-1.5" />
                                 Sign In
                             </Link>
-                            <Link href="/register" className="h-10 px-5 rounded-xl bg-zinc-950 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 font-semibold text-xs transition-all duration-200 flex items-center gap-1.5 shadow-md active:scale-95 cursor-pointer">
+                            <Link href="/register" className="h-10 px-5 rounded-xl bg-[#FF5A36] hover:bg-[#E04F2F] text-white font-semibold text-xs transition-all duration-205 flex items-center gap-1.5 shadow-md active:scale-95 cursor-pointer">
                                 <UserPlus className="w-3.5 h-3.5" />
                                 Sign Up
                             </Link>
@@ -309,11 +303,11 @@ export default function HeaderClient({ session }: HeaderClientProps) {
                                     </form>
                                 ) : (
                                     <div className="flex flex-col gap-3">
-                                        <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="w-full h-12 rounded-xl text-zinc-700 dark:text-zinc-350 hover:bg-zinc-50 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 font-semibold text-xs transition-all duration-200 flex items-center justify-center gap-1.5">
+                                        <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="w-full h-12 rounded-xl text-zinc-700 dark:text-zinc-350 hover:text-[#FF5A36] dark:hover:text-[#FF5A36] border border-zinc-200 dark:border-zinc-800 font-semibold text-xs transition-all duration-200 flex items-center justify-center gap-1.5">
                                             <LogIn className="w-3.5 h-3.5" />
                                             <span>Sign In</span>
                                         </Link>
-                                        <Link href="/register" onClick={() => setIsMobileMenuOpen(false)} className="w-full h-12 rounded-xl bg-zinc-950 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 font-semibold text-xs transition-all duration-200 flex items-center justify-center gap-1.5 shadow-md">
+                                        <Link href="/register" onClick={() => setIsMobileMenuOpen(false)} className="w-full h-12 rounded-xl bg-[#FF5A36] hover:bg-[#E04F2F] text-white font-semibold text-xs transition-all duration-200 flex items-center justify-center gap-1.5 shadow-md">
                                             <UserPlus className="w-3.5 h-3.5" />
                                             <span>Sign Up Free</span>
                                         </Link>

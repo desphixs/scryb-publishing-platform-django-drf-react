@@ -25,3 +25,151 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* 
+  MARKDOWN TYPOGRAPHY STYLING SYSTEM
+  
+  Analogy for Beginners:
+  Think of this styling system like a custom formatting template in Microsoft Word.
+  When our Markdown converter translates plain markdown symbols (like #, * or >) into raw HTML elements
+  (like <h1>, <p> or <blockquote>), these rules tell the browser exactly how to space, color,
+  and scale them so they look like a beautifully styled book or editorial article!
+*/
+.markdown-content {
+  line-height: 1.8; /* Give lines plenty of breathing room to reduce eye strain */
+}
+
+/* Styling for main topic headings */
+.markdown-content h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+  color: var(--color-zinc-950);
+}
+.dark .markdown-content h1 {
+  color: var(--color-white);
+}
+
+/* Styling for sub-section headings */
+.markdown-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+  color: var(--color-zinc-900);
+}
+.dark .markdown-content h2 {
+  color: var(--color-zinc-100);
+}
+
+/* Styling for small sub-headings */
+.markdown-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-zinc-900);
+}
+.dark .markdown-content h3 {
+  color: var(--color-zinc-150);
+}
+
+/* Paragraph spacing and text colors */
+.markdown-content p {
+  margin-bottom: 1.25rem;
+  color: var(--color-zinc-700);
+}
+.dark .markdown-content p {
+  color: var(--color-zinc-300);
+}
+
+/* Unordered (bulleted) lists spacing and bullets type */
+.markdown-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Ordered (numbered) lists */
+.markdown-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+/* List items spacing */
+.markdown-content li {
+  margin-bottom: 0.375rem;
+  color: var(--color-zinc-700);
+}
+.dark .markdown-content li {
+  color: var(--color-zinc-300);
+}
+
+/* Standard inline hyperlinks */
+.markdown-content a {
+  color: var(--color-zinc-950);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+.markdown-content a:hover {
+  opacity: 0.8;
+}
+.dark .markdown-content a {
+  color: var(--color-white);
+}
+
+/* Blockquote/pull-quotes indent and border highlighting */
+.markdown-content blockquote {
+  border-left: 3px solid var(--color-zinc-300);
+  padding-left: 1.25rem;
+  font-style: italic;
+  color: var(--color-zinc-600);
+  margin: 1.5rem 0;
+}
+.dark .markdown-content blockquote {
+  border-left-color: var(--color-zinc-700);
+  color: var(--color-zinc-400);
+}
+
+/* Pre-formatted code blocks for code snippets */
+.markdown-content pre {
+  background-color: var(--color-zinc-900);
+  color: var(--color-zinc-100);
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  font-family: monospace;
+  font-size: 0.875rem;
+  border: 1px solid var(--color-zinc-800);
+}
+
+/* Simple inline code backticks */
+.markdown-content code {
+  font-family: monospace;
+  background-color: var(--color-zinc-100);
+  color: var(--color-zinc-900);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+.dark .markdown-content code {
+  background-color: #27272a;
+  color: var(--color-zinc-100);
+}
+
+/* Pre-formatted code cleanups */
+.markdown-content pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+}
